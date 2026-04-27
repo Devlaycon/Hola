@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Hola – Find your perfect stay</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',system-ui,sans-serif;color:#1a1a1a;background:#fff}
+  a{text-decoration:none;color:inherit}
+  img{display:block;width:100%}
+
+  /* NAV */
+  nav{display:flex;align-items:center;justify-content:space-between;padding:18px 5%;border-bottom:1px solid #f0f0f0;position:sticky;top:0;background:#fff;z-index:100}
+  .logo{font-size:22px;font-weight:700;letter-spacing:-0.5px;color:#222}
+  .logo span{color:#e05a2b}
+  .nav-links{display:flex;gap:28px;font-size:14px;color:#555}
+  .nav-links a:hover{color:#222}
+  .nav-cta{background:#222;color:#fff;padding:9px 20px;border-radius:50px;font-size:14px;font-weight:500;cursor:pointer;border:none;transition:background 0.2s}
+  .nav-cta:hover{background:#444}
+
+  /* HERO */
+  .hero{position:relative;min-height:580px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:linear-gradient(135deg,#fdf6f0 0%,#fce8d8 100%)}
+  .hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80') center/cover no-repeat;opacity:0.18}
+  .hero-content{position:relative;z-index:1;padding:0 20px}
+  .hero-content h1{font-size:clamp(32px,5vw,56px);font-weight:700;line-height:1.15;letter-spacing:-1px;color:#1a1a1a;margin-bottom:14px}
+  .hero-content p{font-size:17px;color:#666;margin-bottom:36px}
+  .search-box{background:#fff;border-radius:60px;display:flex;align-items:center;box-shadow:0 4px 24px rgba(0,0,0,0.12);padding:6px 6px 6px 20px;max-width:700px;margin:0 auto;gap:0}
+  .search-field{flex:1;text-align:left;padding:8px 16px;border-right:1px solid #eee}
+  .search-field:last-of-type{border-right:none}
+  .search-field label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#999;margin-bottom:2px}
+  .search-field input{border:none;outline:none;font-size:14px;color:#222;background:transparent;width:100%}
+  .search-btn{background:#e05a2b;color:#fff;border:none;border-radius:50px;padding:14px 22px;cursor:pointer;font-size:14px;font-weight:600;white-space:nowrap;transition:background 0.2s}
+  .search-btn:hover{background:#c44e24}
+
+  /* SECTION WRAPPER */
+  section{padding:64px 5%}
+  h2.section-title{font-size:clamp(22px,3vw,30px);font-weight:700;letter-spacing:-0.5px;margin-bottom:8px}
+  p.section-sub{font-size:15px;color:#777;margin-bottom:36px}
+
+  /* CATEGORIES */
+  .categories{background:#fafafa}
+  .cat-chips{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:36px}
+  .chip{padding:8px 18px;border-radius:50px;border:1.5px solid #ddd;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s;background:#fff}
+  .chip.active,.chip:hover{background:#222;color:#fff;border-color:#222}
+  .listings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:24px}
+  .card{border-radius:16px;overflow:hidden;cursor:pointer;transition:transform 0.2s}
+  .card:hover{transform:translateY(-4px)}
+  .card-img{height:200px;background:#e0e0e0;position:relative;overflow:hidden}
+  .card-img img{width:100%;height:100%;object-fit:cover}
+  .card-badge{position:absolute;top:10px;left:10px;background:#fff;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;color:#333}
+  .card-body{padding:12px 4px}
+  .card-loc{font-size:13px;color:#888;margin-bottom:2px}
+  .card-name{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:4px}
+  .card-meta{display:flex;justify-content:space-between;align-items:center}
+  .card-price{font-size:14px;font-weight:600}
+  .card-price span{font-weight:400;color:#888;font-size:13px}
+  .card-rating{font-size:13px;color:#555;display:flex;align-items:center;gap:4px}
+  .star{color:#e05a2b}
+
+  /* WHY HOLA */
+  .why-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:32px;margin-top:40px}
+  .why-card{text-align:center;padding:32px 24px;border-radius:20px;border:1px solid #f0f0f0}
+  .why-icon{width:52px;height:52px;background:#fff4ef;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px}
+  .why-card h3{font-size:17px;font-weight:700;margin-bottom:8px}
+  .why-card p{font-size:14px;color:#777;line-height:1.6}
+
+  /* HOST CTA */
+  .host-section{background:#1a1a1a;color:#fff;border-radius:28px;margin:0 5% 64px;padding:64px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+  .host-section h2{font-size:clamp(24px,3vw,36px);font-weight:700;line-height:1.2;letter-spacing:-0.5px;margin-bottom:14px}
+  .host-section p{font-size:15px;color:#aaa;line-height:1.7;margin-bottom:28px}
+  .host-btn{background:#e05a2b;color:#fff;border:none;padding:14px 28px;border-radius:50px;font-size:15px;font-weight:600;cursor:pointer;transition:background 0.2s;display:inline-block}
+  .host-btn:hover{background:#c44e24}
+  .host-img{border-radius:20px;overflow:hidden;height:300px;background:#2e2e2e}
+  .host-img img{width:100%;height:100%;object-fit:cover;opacity:0.85}
+
+  /* FOOTER */
+  footer{border-top:1px solid #f0f0f0;padding:40px 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .footer-logo{font-size:18px;font-weight:700;color:#222}.footer-logo span{color:#e05a2b}
+  .footer-links{display:flex;gap:24px;font-size:13px;color:#888}
+  .footer-links a:hover{color:#222}
+  .footer-copy{font-size:12px;color:#bbb}
+
+  @media(max-width:700px){
+    .search-box{flex-direction:column;border-radius:20px;padding:16px}
+    .search-field{border-right:none;border-bottom:1px solid #eee;padding:8px 0}
+    .host-section{grid-template-columns:1fr;padding:36px 28px}
+    .host-img{height:200px}
+    .nav-links{display:none}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Hola<span>.</span></div>
+  <div class="nav-links">
+    <a href="#">Explore</a>
+    <a href="#">Experiences</a>
+    <a href="#">Become a host</a>
+    <a href="#">About</a>
+  </div>
+  <button class="nav-cta">Sign up</button>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <h1>Find your perfect stay,<br>anywhere in the world.</h1>
+    <p>Short stays, long rentals, and one-of-a-kind experiences — all in one place.</p>
+    <div class="search-box">
+      <div class="search-field">
+        <label>Where</label>
+        <input type="text" placeholder="Search destinations"/>
+      </div>
+      <div class="search-field">
+        <label>Check in</label>
+        <input type="text" placeholder="Add dates"/>
+      </div>
+      <div class="search-field">
+        <label>Check out</label>
+        <input type="text" placeholder="Add dates"/>
+      </div>
+      <div class="search-field">
+        <label>Guests</label>
+        <input type="text" placeholder="Add guests"/>
+      </div>
+      <button class="search-btn">Search</button>
+    </div>
+  </div>
+</div>
+
+<section class="categories">
+  <h2 class="section-title">Explore stays</h2>
+  <p class="section-sub">From weekend getaways to long-term homes and unique experiences.</p>
+  <div class="cat-chips">
+    <div class="chip active">All</div>
+    <div class="chip">Holiday stays</div>
+    <div class="chip">Long-term rentals</div>
+    <div class="chip">Unique experiences</div>
+    <div class="chip">Beachfront</div>
+    <div class="chip">Mountain retreats</div>
+    <div class="chip">City apartments</div>
+  </div>
+  <div class="listings-grid">
+    <div class="card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=500&q=75" alt="Villa"/>
+        <div class="card-badge">Superhost</div>
+      </div>
+      <div class="card-body">
+        <div class="card-loc">Bali, Indonesia</div>
+        <div class="card-name">Cliffside villa with ocean views</div>
+        <div class="card-meta">
+          <div class="card-price">$180 <span>/ night</span></div>
+          <div class="card-rating"><span class="star">★</span> 4.97</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500&q=75" alt="Modern home"/>
+        <div class="card-badge">New</div>
+      </div>
+      <div class="card-body">
+        <div class="card-loc">Barcelona, Spain</div>
+        <div class="card-name">Sunlit modern apartment in Eixample</div>
+        <div class="card-meta">
+          <div class="card-price">$95 <span>/ night</span></div>
+          <div class="card-rating"><span class="star">★</span> 4.89</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1464146072230-91cabc968dac?w=500&q=75" alt="Cabin"/>
+      </div>
+      <div class="card-body">
+        <div class="card-loc">Queenstown, NZ</div>
+        <div class="card-name">Alpine cabin with mountain views</div>
+        <div class="card-meta">
+          <div class="card-price">$140 <span>/ night</span></div>
+          <div class="card-rating"><span class="star">★</span> 4.95</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500&q=75" alt="House"/>
+        <div class="card-badge">Superhost</div>
+      </div>
+      <div class="card-body">
+        <div class="card-loc">Amalfi Coast, Italy</div>
+        <div class="card-name">Charming terrace house by the sea</div>
+        <div class="card-meta">
+          <div class="card-price">$220 <span>/ night</span></div>
+          <div class="card-rating"><span class="star">★</span> 4.98</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">Why Hola?</h2>
+  <p class="section-sub">Everything you need to find, book, and enjoy your stay.</p>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">🌍</div>
+      <h3>Discover anywhere</h3>
+      <p>Browse thousands of unique properties across every corner of the globe, from cosy city flats to remote island retreats.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🔒</div>
+      <h3>Book with confidence</h3>
+      <p>Every booking is protected. Secure payments, verified hosts, and a dedicated support team have you covered 24/7.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">✨</div>
+      <h3>Enjoy your way</h3>
+      <p>Whether it's a weekend escape, a month-long stay, or a one-of-a-kind local experience — Hola has something for everyone.</p>
+    </div>
+  </div>
+</section>
+
+<div class="host-section">
+  <div>
+    <h2>Turn your space into<br>your next income stream.</h2>
+    <p>Join thousands of hosts who earn extra income sharing their homes. It's free to list, and you're in control every step of the way.</p>
+    <button class="host-btn">Start hosting today</button>
+  </div>
+  <div class="host-img">
+    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=75" alt="Beautiful home interior"/>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Hola<span>.</span></div>
+  <div class="footer-links">
+    <a href="#">About</a>
+    <a href="#">Careers</a>
+    <a href="#">Press</a>
+    <a href="#">Help</a>
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+  </div>
+  <div class="footer-copy">© 2026 Hola. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
