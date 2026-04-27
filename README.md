@@ -1,2 +1,2 @@
 # Hola
-Airbnb is an online marketplace that connects people who want to rent out their homes (hosts) with people who are looking for accommodations (guests).It has evolved from a simple room-sharing site into a massive travel ecosystem that includes entire homes, boutique hotels, and even local activities
+Hola is an online marketplace that connects people who want to rent out their homes (hosts) with people looking for accommodation (guests). The platform supports short-term holiday stays, long-term rentals, and unique local experiences — all in one place.
