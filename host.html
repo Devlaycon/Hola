@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Hola – Become a Host</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',system-ui,sans-serif;color:#1a1a1a;background:#fff;overflow-x:hidden}
+  a{text-decoration:none;color:inherit}
+
+  /* NAV */
+  nav{display:flex;align-items:center;justify-content:space-between;padding:18px 5%;border-bottom:1px solid #f0f0f0;position:sticky;top:0;background:#fff;z-index:100}
+  .logo{font-size:22px;font-weight:700;letter-spacing:-0.5px;color:#222;cursor:pointer}
+  .logo span{color:#e05a2b}
+  .nav-links{display:flex;gap:28px;font-size:14px;color:#555}
+  .nav-links a:hover{color:#222}
+  .nav-right{display:flex;align-items:center;gap:12px}
+  .nav-login{font-size:14px;font-weight:500;color:#555;cursor:pointer;padding:8px 16px;border-radius:50px;transition:background 0.2s}
+  .nav-login:hover{background:#f5f5f5}
+  .nav-cta{background:#e05a2b;color:#fff;padding:9px 20px;border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:background 0.2s}
+  .nav-cta:hover{background:#c44e24}
+
+  /* HERO */
+  .hero{min-height:92vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:60px 5%;gap:60px;background:linear-gradient(160deg,#fff 0%,#fdf6f0 100%)}
+  .hero-left{}
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff4ef;color:#e05a2b;padding:6px 14px;border-radius:50px;font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:24px}
+  .hero-title{font-size:clamp(36px,5vw,62px);font-weight:700;line-height:1.1;letter-spacing:-1.5px;color:#1a1a1a;margin-bottom:20px}
+  .hero-title span{color:#e05a2b}
+  .hero-sub{font-size:17px;color:#666;line-height:1.7;margin-bottom:36px;max-width:480px}
+  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px}
+  .btn-primary{background:#e05a2b;color:#fff;border:none;padding:15px 32px;border-radius:50px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;display:inline-block}
+  .btn-primary:hover{background:#c44e24;transform:translateY(-1px);box-shadow:0 8px 24px rgba(224,90,43,0.3)}
+  .btn-ghost{background:#fff;color:#222;border:2px solid #e0e0e0;padding:13px 28px;border-radius:50px;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s}
+  .btn-ghost:hover{border-color:#aaa}
+  .hero-stats{display:flex;gap:32px;flex-wrap:wrap}
+  .stat{border-left:3px solid #e05a2b;padding-left:14px}
+  .stat-num{font-size:26px;font-weight:700;letter-spacing:-0.5px;color:#1a1a1a}
+  .stat-label{font-size:12px;color:#888;margin-top:2px}
+
+  /* HERO RIGHT — earnings calc */
+  .earnings-card{background:#fff;border-radius:24px;padding:32px;box-shadow:0 8px 48px rgba(0,0,0,0.1);position:relative}
+  .earnings-card::before{content:'';position:absolute;inset:-2px;border-radius:26px;background:linear-gradient(135deg,#e05a2b22,#fff0,#e05a2b11);z-index:-1}
+  .ec-title{font-size:16px;font-weight:700;margin-bottom:20px;color:#111}
+  .ec-label{font-size:12px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+  .ec-slider-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+  .ec-val{font-size:14px;font-weight:700;color:#e05a2b}
+  input[type=range]{width:100%;accent-color:#e05a2b;margin-bottom:20px;cursor:pointer}
+  .ec-result{background:linear-gradient(135deg,#1a1a1a,#333);border-radius:16px;padding:20px 24px;margin-top:8px;text-align:center}
+  .ec-result-label{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px}
+  .ec-result-num{font-size:36px;font-weight:700;color:#fff;letter-spacing:-1px}
+  .ec-result-sub{font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px}
+  .ec-breakdown{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+  .ec-item{background:#f9f9f9;border-radius:10px;padding:10px 14px}
+  .ec-item-label{font-size:10px;color:#aaa;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px}
+  .ec-item-val{font-size:15px;font-weight:700;color:#111}
+
+  /* HOW IT WORKS */
+  .section{padding:80px 5%}
+  .section-eyebrow{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#e05a2b;margin-bottom:12px}
+  .section-title{font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-0.5px;margin-bottom:12px;line-height:1.15}
+  .section-sub{font-size:16px;color:#666;line-height:1.7;max-width:540px;margin-bottom:56px}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+  .step{position:relative}
+  .step::after{content:'';position:absolute;top:24px;right:-16px;width:32px;height:2px;background:#e0e0e0}
+  .step:last-child::after{display:none}
+  .step-num{width:48px;height:48px;border-radius:50%;background:#fff4ef;border:2px solid #e05a2b;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#e05a2b;margin-bottom:16px}
+  .step-title{font-size:17px;font-weight:700;margin-bottom:8px}
+  .step-desc{font-size:14px;color:#666;line-height:1.65}
+
+  /* EARNINGS EXAMPLES */
+  .earnings-section{background:#fafafa;padding:80px 5%}
+  .earn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;margin-top:48px}
+  .earn-card{background:#fff;border-radius:16px;overflow:hidden;border:1px solid #f0f0f0;transition:transform 0.2s,box-shadow 0.2s}
+  .earn-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.08)}
+  .earn-img{height:180px;overflow:hidden}
+  .earn-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s}
+  .earn-card:hover .earn-img img{transform:scale(1.05)}
+  .earn-body{padding:16px}
+  .earn-type{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#888;margin-bottom:4px}
+  .earn-title{font-size:15px;font-weight:700;margin-bottom:12px}
+  .earn-row{display:flex;justify-content:space-between;align-items:center}
+  .earn-amount{font-size:20px;font-weight:700;color:#1a1a1a}
+  .earn-per{font-size:12px;color:#aaa}
+  .earn-badge{background:#fff4ef;color:#e05a2b;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px}
+
+  /* WHY HOST */
+  .why-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:24px;margin-top:48px}
+  .why-card{padding:28px 24px;border-radius:20px;border:1px solid #f0f0f0;transition:all 0.2s}
+  .why-card:hover{border-color:#e05a2b22;box-shadow:0 8px 32px rgba(224,90,43,0.08);transform:translateY(-2px)}
+  .why-icon{width:48px;height:48px;background:#fff4ef;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px}
+  .why-title{font-size:16px;font-weight:700;margin-bottom:8px}
+  .why-desc{font-size:13px;color:#777;line-height:1.65}
+
+  /* TESTIMONIALS */
+  .testi-section{background:#1a1a1a;padding:80px 5%}
+  .testi-section .section-title{color:#fff}
+  .testi-section .section-eyebrow{color:#e05a2b}
+  .testi-section .section-sub{color:rgba(255,255,255,0.5)}
+  .testi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;margin-top:48px}
+  .testi-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:28px;transition:all 0.2s}
+  .testi-card:hover{background:rgba(255,255,255,0.08)}
+  .testi-quote{font-size:14px;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:20px;font-style:italic}
+  .testi-author{display:flex;align-items:center;gap:12px}
+  .testi-avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.1)}
+  .testi-name{font-size:13px;font-weight:700;color:#fff}
+  .testi-loc{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px}
+  .testi-earn{font-size:12px;color:#e05a2b;font-weight:700;margin-top:2px}
+
+  /* FAQ */
+  .faq-list{max-width:680px;margin:48px auto 0}
+  .faq-item{border-bottom:1px solid #f0f0f0;padding:20px 0;cursor:pointer}
+  .faq-q{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:600;color:#1a1a1a}
+  .faq-icon{font-size:20px;color:#aaa;transition:transform 0.2s;flex-shrink:0}
+  .faq-a{font-size:14px;color:#666;line-height:1.7;margin-top:12px;display:none}
+  .faq-item.open .faq-icon{transform:rotate(45deg)}
+  .faq-item.open .faq-a{display:block}
+
+  /* FINAL CTA */
+  .final-cta{background:linear-gradient(135deg,#e05a2b 0%,#c44e24 100%);padding:80px 5%;text-align:center;position:relative;overflow:hidden}
+  .final-cta::before{content:'Hola.';position:absolute;font-size:180px;font-weight:700;color:rgba(255,255,255,0.06);top:50%;left:50%;transform:translate(-50%,-50%);letter-spacing:-4px;pointer-events:none;white-space:nowrap}
+  .final-cta h2{font-size:clamp(28px,4vw,48px);font-weight:700;color:#fff;letter-spacing:-0.5px;margin-bottom:14px;position:relative}
+  .final-cta p{font-size:16px;color:rgba(255,255,255,0.8);margin-bottom:36px;position:relative}
+  .final-cta .btn-white{background:#fff;color:#e05a2b;border:none;padding:15px 40px;border-radius:50px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;position:relative}
+  .final-cta .btn-white:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,0,0,0.2)}
+
+  /* FOOTER */
+  footer{border-top:1px solid #f0f0f0;padding:40px 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .footer-logo{font-size:18px;font-weight:700;color:#222;cursor:pointer}
+  .footer-logo span{color:#e05a2b}
+  .footer-links{display:flex;gap:24px;font-size:13px;color:#888}
+  .footer-links a:hover{color:#222}
+  .footer-copy{font-size:12px;color:#bbb}
+
+  @media(max-width:900px){
+    .hero{grid-template-columns:1fr;min-height:auto;padding:40px 5%}
+    .steps{grid-template-columns:1fr}
+    .step::after{display:none}
+    .nav-links{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="window.location.href='index.html'">Hola<span>.</span></div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="listings.html">Explore</a>
+    <a href="#">Resources</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-login" onclick="window.location.href='auth.html'">Log in</div>
+    <button class="nav-cta" onclick="window.location.href='auth.html'">Get started</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">🏡 Start hosting today</div>
+    <h1 class="hero-title">Earn extra income<br>hosting on <span>Hola.</span></h1>
+    <p class="hero-sub">Turn your spare room, apartment, or holiday home into a steady income stream. Set your own schedule, your own rules, and your own price — Hola handles the rest.</p>
+    <div class="hero-ctas">
+      <button class="btn-primary" onclick="window.location.href='auth.html'">Start for free →</button>
+      <button class="btn-ghost" onclick="document.getElementById('howItWorks').scrollIntoView({behavior:'smooth'})">How it works</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">$2,400</div><div class="stat-label">Avg. monthly earnings</div></div>
+      <div class="stat"><div class="stat-num">10k+</div><div class="stat-label">Active hosts</div></div>
+      <div class="stat"><div class="stat-num">4.9★</div><div class="stat-label">Host satisfaction</div></div>
+    </div>
+  </div>
+
+  <!-- EARNINGS CALCULATOR -->
+  <div class="earnings-card">
+    <div class="ec-title">💰 Estimate your earnings</div>
+
+    <div class="ec-label">Nights per month</div>
+    <div class="ec-slider-row">
+      <span style="font-size:12px;color:#aaa">1</span>
+      <span class="ec-val" id="nightsVal">15 nights</span>
+      <span style="font-size:12px;color:#aaa">30</span>
+    </div>
+    <input type="range" min="1" max="30" value="15" id="nightsSlider" oninput="calcEarnings()"/>
+
+    <div class="ec-label">Nightly rate (AUD)</div>
+    <div class="ec-slider-row">
+      <span style="font-size:12px;color:#aaa">$50</span>
+      <span class="ec-val" id="rateVal">$120 / night</span>
+      <span style="font-size:12px;color:#aaa">$500</span>
+    </div>
+    <input type="range" min="50" max="500" value="120" id="rateSlider" oninput="calcEarnings()"/>
+
+    <div class="ec-label">Property type</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:20px">
+      <button class="prop-type-btn active" onclick="selectType(this,0)">🛏 Room</button>
+      <button class="prop-type-btn" onclick="selectType(this,1)">🏠 Apartment</button>
+      <button class="prop-type-btn" onclick="selectType(this,2)">🏡 Villa</button>
+    </div>
+
+    <div class="ec-result">
+      <div class="ec-result-label">Estimated monthly earnings</div>
+      <div class="ec-result-num" id="totalEarn">$1,530</div>
+      <div class="ec-result-sub">after Hola's 3% host fee</div>
+    </div>
+
+    <div class="ec-breakdown">
+      <div class="ec-item"><div class="ec-item-label">Gross income</div><div class="ec-item-val" id="grossEarn">$1,800</div></div>
+      <div class="ec-item"><div class="ec-item-label">Hola fee (3%)</div><div class="ec-item-val" id="feeAmt" style="color:#e05a2b">-$54</div></div>
+      <div class="ec-item"><div class="ec-item-label">Per night</div><div class="ec-item-val" id="perNight">$116</div></div>
+      <div class="ec-item"><div class="ec-item-label">Annual est.</div><div class="ec-item-val" id="annualEarn">$18,360</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="section" id="howItWorks">
+  <div class="section-eyebrow">Simple process</div>
+  <h2 class="section-title">Up and running in 3 steps</h2>
+  <p class="section-sub">Getting started on Hola takes less than 10 minutes. No experience needed — we guide you through everything.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3 class="step-title">List your space</h3>
+      <p class="step-desc">Create your listing for free. Add photos, set your house rules, choose your availability, and write about what makes your place special. We'll guide you through every step.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3 class="step-title">Welcome guests</h3>
+      <p class="step-desc">Once you're live, guests can find and book your place. You choose who stays — review guest profiles and accept or decline any booking. You're always in control.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3 class="step-title">Get paid</h3>
+      <p class="step-desc">Hola releases payment to your bank account 24 hours after check-in. No chasing invoices, no delays — just money in your account, automatically.</p>
+    </div>
+  </div>
+</div>
+
+<!-- EARNINGS EXAMPLES -->
+<div class="earnings-section">
+  <div class="section-eyebrow">Real earnings</div>
+  <h2 class="section-title">What hosts earn on Hola</h2>
+  <p class="section-sub">Every home is different — here are some real examples of what hosts like you are earning.</p>
+  <div class="earn-grid">
+    <div class="earn-card">
+      <div class="earn-img"><img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=500&q=75" alt=""/></div>
+      <div class="earn-body">
+        <div class="earn-type">Private room · Sydney</div>
+        <div class="earn-title">Spare room in Surry Hills terrace</div>
+        <div class="earn-row">
+          <div><div class="earn-amount">$1,240</div><div class="earn-per">per month avg.</div></div>
+          <div class="earn-badge">12 nights/mo</div>
+        </div>
+      </div>
+    </div>
+    <div class="earn-card">
+      <div class="earn-img"><img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500&q=75" alt=""/></div>
+      <div class="earn-body">
+        <div class="earn-type">Entire apartment · Melbourne</div>
+        <div class="earn-title">Modern 2BR in Fitzroy</div>
+        <div class="earn-row">
+          <div><div class="earn-amount">$2,890</div><div class="earn-per">per month avg.</div></div>
+          <div class="earn-badge">18 nights/mo</div>
+        </div>
+      </div>
+    </div>
+    <div class="earn-card">
+      <div class="earn-img"><img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=500&q=75" alt=""/></div>
+      <div class="earn-body">
+        <div class="earn-type">Entire villa · Bali</div>
+        <div class="earn-title">Cliffside villa, private pool</div>
+        <div class="earn-row">
+          <div><div class="earn-amount">$5,400</div><div class="earn-per">per month avg.</div></div>
+          <div class="earn-badge">Superhost</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY HOST WITH HOLA -->
+<div class="section">
+  <div class="section-eyebrow">Why Hola</div>
+  <h2 class="section-title">Everything you need to host with confidence</h2>
+  <p class="section-sub">We've built the tools, protection, and support so you can focus on what matters — being a great host.</p>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">🛡️</div>
+      <div class="why-title">Host protection</div>
+      <p class="why-desc">Every booking includes up to $1M in property damage protection and liability insurance — at no extra cost to you.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">💸</div>
+      <div class="why-title">Low fees</div>
+      <p class="why-desc">Hola charges hosts just 3% per booking — one of the lowest in the industry. You keep more of what you earn.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">📅</div>
+      <div class="why-title">Full flexibility</div>
+      <p class="why-desc">Block dates, set minimum stays, change your price anytime. Your property, your rules — always.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🌟</div>
+      <div class="why-title">Superhost rewards</div>
+      <p class="why-desc">Consistently great hosts earn Superhost status — boosting your visibility, earning more bookings and exclusive perks.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">📞</div>
+      <div class="why-title">24/7 support</div>
+      <p class="why-desc">Our dedicated host team is available around the clock via chat, phone, or email — whenever you need us.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">📊</div>
+      <div class="why-title">Smart pricing</div>
+      <p class="why-desc">Our pricing tool automatically adjusts your rate based on local demand, events, and seasonality to maximise your income.</p>
+    </div>
+  </div>
+</div>
+
+<!-- HOST TESTIMONIALS -->
+<div class="testi-section">
+  <div class="section-eyebrow">Host stories</div>
+  <h2 class="section-title">Hosts love Hola</h2>
+  <p class="section-sub">Don't just take our word for it — hear from real hosts who've made Hola work for them.</p>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <p class="testi-quote">"I was nervous about hosting strangers at first. Three years later I've welcomed over 200 guests and it's become a genuine second income. The support team is incredible."</p>
+      <div class="testi-author">
+        <img class="testi-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=75" alt=""/>
+        <div>
+          <div class="testi-name">Emma R.</div>
+          <div class="testi-loc">Sydney, NSW</div>
+          <div class="testi-earn">Earns $2,100/month</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <p class="testi-quote">"The earnings calculator on the website was pretty much spot on. I listed my Fitzroy apartment expecting $2k a month and I'm consistently hitting $3,200. Couldn't be happier."</p>
+      <div class="testi-author">
+        <img class="testi-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=75" alt=""/>
+        <div>
+          <div class="testi-name">Marcus T.</div>
+          <div class="testi-loc">Melbourne, VIC</div>
+          <div class="testi-earn">Earns $3,200/month</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <p class="testi-quote">"I have a holiday home I only use 4 months a year. Hosting on Hola for the other 8 months basically pays my mortgage. It's completely changed our financial situation."</p>
+      <div class="testi-author">
+        <img class="testi-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=75" alt=""/>
+        <div>
+          <div class="testi-name">Priya S.</div>
+          <div class="testi-loc">Gold Coast, QLD</div>
+          <div class="testi-earn">Earns $4,800/month</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="section" style="background:#fafafa">
+  <div style="max-width:680px;margin:0 auto">
+    <div class="section-eyebrow" style="text-align:center">FAQ</div>
+    <h2 class="section-title" style="text-align:center">Common questions</h2>
+    <div class="faq-list">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Do I need to be home when guests stay? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Not at all. Many hosts on Hola rent their entire home while they're away, or use smart locks for self check-in. You're in full control of how you host.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">How does Hola protect my property? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Every booking is backed by Hola's Host Guarantee — up to $1,000,000 in property damage protection. We also provide liability insurance so you're covered if a guest is injured.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">When and how do I get paid? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Hola releases your payment 24 hours after your guest checks in. Funds are deposited directly into your nominated bank account, usually arriving within 1–3 business days.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Can I choose who books my place? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Yes. You can review every guest's profile, read their reviews from other hosts, and accept or decline any booking request. You're never obligated to accept a booking you're not comfortable with.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">What are Hola's fees for hosts? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Hola charges a simple 3% service fee per completed booking — one of the lowest in the industry. There are no monthly fees, no listing fees, and no charges if a booking is cancelled.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Can I host if I'm renting my home? <span class="faq-icon">+</span></div>
+        <div class="faq-a">It depends on your lease agreement and local laws. We recommend checking with your landlord and local council before listing. Hola provides hosting guides for every major city to help you navigate the rules.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <h2>Ready to start earning?</h2>
+  <p>Join 10,000+ hosts already earning on Hola. It's free to list and takes less than 10 minutes.</p>
+  <button class="btn-white" onclick="window.location.href='auth.html'">Create your free listing →</button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo" onclick="window.location.href='index.html'">Hola<span>.</span></div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="listings.html">Explore</a>
+    <a href="#">About</a>
+    <a href="#">Help</a>
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+  </div>
+  <div class="footer-copy">© 2026 Hola. All rights reserved.</div>
+</footer>
+
+<style>
+  .prop-type-btn{padding:8px;border-radius:8px;border:1.5px solid #e0e0e0;background:#fff;font-size:12px;font-weight:500;cursor:pointer;transition:all 0.15s;text-align:center}
+  .prop-type-btn.active{border-color:#e05a2b;background:#fff4ef;color:#e05a2b;font-weight:700}
+</style>
+
+<script>
+const TYPE_MULT = [1, 1.4, 2.2];
+let typeMult = 1;
+
+function selectType(btn, idx){
+  document.querySelectorAll('.prop-type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  typeMult = TYPE_MULT[idx];
+  calcEarnings();
+}
+
+function calcEarnings(){
+  const nights = parseInt(document.getElementById('nightsSlider').value);
+  const rate = parseInt(document.getElementById('rateSlider').value) * typeMult;
+  document.getElementById('nightsVal').textContent = nights + ' nights';
+  document.getElementById('rateVal').textContent = '$' + parseInt(document.getElementById('rateSlider').value) + ' / night';
+  const gross = Math.round(nights * rate);
+  const fee = Math.round(gross * 0.03);
+  const net = gross - fee;
+  const annual = net * 12;
+  document.getElementById('grossEarn').textContent = '$' + gross.toLocaleString();
+  document.getElementById('feeAmt').textContent = '-$' + fee.toLocaleString();
+  document.getElementById('totalEarn').textContent = '$' + net.toLocaleString();
+  document.getElementById('perNight').textContent = '$' + Math.round(rate * 0.97);
+  document.getElementById('annualEarn').textContent = '$' + annual.toLocaleString();
+}
+
+function toggleFaq(item){
+  item.classList.toggle('open');
+}
+
+calcEarnings();
+</script>
+</body>
+</html>
