@@ -1,5 +1,4 @@
-// nav.js — paste this at the bottom of every Hola HTML file, just before </body>
-// It wires up all navigation links across the site automatically
+/ nav.js — paste this at the bottom of every Hola HTML file, just before </body>
 
 (function(){
   // Logo → home
@@ -8,7 +7,7 @@
     el.addEventListener('click', () => window.location.href = 'index.html');
   });
 
-  // "Sign up" / "nav-cta" buttons → auth page
+  // "Sign up" / nav-cta buttons → auth page
   document.querySelectorAll('.nav-cta').forEach(el => {
     el.addEventListener('click', () => window.location.href = 'auth.html');
   });
@@ -17,8 +16,10 @@
   const navMap = {
     'Explore':        'listings.html',
     'Experiences':    'listings.html',
-    'Become a host':  'auth.html',
+    'Become a host':  'host.html',    // ← updated
     'About':          'index.html',
+    'Home':           'index.html',
+    'Resources':      'host.html',
   };
   document.querySelectorAll('.nav-links a').forEach(a => {
     const dest = navMap[a.textContent.trim()];
@@ -41,9 +42,9 @@
     card.addEventListener('click', () => window.location.href = 'property.html');
   });
 
-  // "Start hosting today" button
+  // "Start hosting today" button → host page
   const hostBtn = document.querySelector('.host-btn');
-  if(hostBtn) hostBtn.addEventListener('click', () => window.location.href = 'auth.html');
+  if(hostBtn) hostBtn.addEventListener('click', () => window.location.href = 'host.html');
 
   // listings.html — clicking a result card goes to property page
   window.goListing = function(id){
@@ -59,4 +60,9 @@
   // auth.html — success button
   const successBtn = document.querySelector('.success-btn');
   if(successBtn) successBtn.addEventListener('click', () => window.location.href = 'listings.html');
+
+  // host.html — nav login button
+  const navLogin = document.querySelector('.nav-login');
+  if(navLogin) navLogin.addEventListener('click', () => window.location.href = 'auth.html');
+
 })();
