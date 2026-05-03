@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Hola – Login / Sign Up</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',system-ui,sans-serif;color:#1a1a1a;background:#fff;min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
+
+  /* LEFT PANEL */
+  .left{position:relative;overflow:hidden;display:flex;flex-direction:column}
+  .left-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=900&q=80') center/cover no-repeat}
+  .left-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.6) 100%)}
+  .left-content{position:relative;z-index:1;padding:32px;display:flex;flex-direction:column;height:100%}
+  .logo{font-size:24px;font-weight:700;color:#fff;letter-spacing:-0.5px}
+  .logo span{color:#e05a2b}
+  .left-bottom{margin-top:auto}
+  .left-quote{font-size:clamp(24px,3vw,36px);font-weight:700;color:#fff;line-height:1.25;letter-spacing:-0.5px;margin-bottom:12px}
+  .left-sub{font-size:14px;color:rgba(255,255,255,0.7);line-height:1.6}
+  .left-props{display:flex;gap:20px;margin-top:24px;flex-wrap:wrap}
+  .prop{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);border-radius:50px;padding:8px 14px}
+  .prop span{font-size:12px;color:#fff;font-weight:500}
+
+  /* RIGHT PANEL */
+  .right{display:flex;align-items:center;justify-content:center;padding:40px 32px;background:#fff}
+  .auth-box{width:100%;max-width:400px}
+
+  /* TABS */
+  .tabs{display:flex;background:#f5f5f5;border-radius:12px;padding:4px;margin-bottom:28px}
+  .tab{flex:1;padding:10px;border-radius:9px;border:none;background:transparent;font-size:14px;font-weight:600;cursor:pointer;color:#888;transition:all 0.2s}
+  .tab.active{background:#fff;color:#1a1a1a;box-shadow:0 1px 4px rgba(0,0,0,0.1)}
+
+  .auth-title{font-size:22px;font-weight:700;letter-spacing:-0.5px;margin-bottom:4px}
+  .auth-sub{font-size:13px;color:#888;margin-bottom:24px}
+
+  /* SOCIAL BUTTONS */
+  .social-btns{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+  .social-btn{width:100%;padding:12px;border:1.5px solid #e0e0e0;border-radius:12px;background:#fff;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.15s;color:#333}
+  .social-btn:hover{background:#f9f9f9;border-color:#ccc}
+  .social-icon{width:18px;height:18px}
+
+  /* DIVIDER */
+  .or-divider{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+  .or-line{flex:1;height:1px;background:#e0e0e0}
+  .or-text{font-size:12px;color:#aaa;font-weight:500}
+
+  /* FORM */
+  .form-group{margin-bottom:14px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  label.field-label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#888;margin-bottom:6px}
+  .field{width:100%;padding:12px 14px;border:1.5px solid #e0e0e0;border-radius:10px;font-size:14px;color:#1a1a1a;outline:none;transition:border-color 0.2s;background:#fff;font-family:inherit}
+  .field:focus{border-color:#e05a2b}
+  .field.error{border-color:#ef4444}
+  .field-error{font-size:11px;color:#ef4444;margin-top:4px;display:none}
+
+  /* Password wrapper */
+  .pw-wrap{position:relative}
+  .pw-wrap .field{padding-right:44px}
+  .pw-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#aaa;padding:4px}
+
+  /* Password strength */
+  .pw-strength{margin-top:6px;display:none}
+  .pw-bars{display:flex;gap:4px;margin-bottom:4px}
+  .pw-bar{flex:1;height:3px;border-radius:2px;background:#e0e0e0;transition:background 0.3s}
+  .pw-bar.weak{background:#ef4444}
+  .pw-bar.medium{background:#f97316}
+  .pw-bar.strong{background:#22c55e}
+  .pw-label{font-size:10px;color:#888}
+
+  /* Terms */
+  .terms{display:flex;align-items:flex-start;gap:8px;margin-bottom:16px}
+  .terms input{margin-top:2px;accent-color:#e05a2b;cursor:pointer;flex-shrink:0}
+  .terms span{font-size:12px;color:#666;line-height:1.5}
+  .terms a{color:#e05a2b;font-weight:600}
+
+  /* Submit */
+  .submit-btn{width:100%;padding:14px;background:#1a1a1a;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden}
+  .submit-btn:hover{background:#333;transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,0.15)}
+  .submit-btn:active{transform:translateY(0)}
+
+  /* Forgot password */
+  .forgot{text-align:right;margin-bottom:14px}
+  .forgot a{font-size:12px;color:#e05a2b;font-weight:600}
+
+  /* Switch */
+  .switch-text{text-align:center;font-size:13px;color:#888;margin-top:20px}
+  .switch-text a{color:#1a1a1a;font-weight:700;cursor:pointer;text-decoration:underline}
+
+  /* Success state */
+  .success-state{display:none;text-align:center;padding:20px 0}
+  .success-icon{font-size:48px;margin-bottom:16px}
+  .success-title{font-size:20px;font-weight:700;margin-bottom:8px}
+  .success-sub{font-size:14px;color:#888;line-height:1.6;margin-bottom:24px}
+  .success-btn{display:inline-block;padding:12px 28px;background:#e05a2b;color:#fff;border-radius:50px;font-size:14px;font-weight:600;border:none;cursor:pointer}
+
+  /* Form panel visibility */
+  .form-panel{display:none}
+  .form-panel.active{display:block}
+
+  /* Validation indicator */
+  .valid-check{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:14px;display:none}
+
+  @media(max-width:768px){
+    body{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+    .left{min-height:220px}
+    .left-props{display:none}
+    .left-quote{font-size:20px}
+    .right{padding:28px 20px}
+  }
+</style>
+</head>
+<body>
+
+<!-- LEFT PANEL -->
+<div class="left">
+  <div class="left-bg"></div>
+  <div class="left-overlay"></div>
+  <div class="left-content">
+    <a href="index.html" class="logo">Hola<span>.</span></a>
+    <div class="left-bottom">
+      <div class="left-quote">Your next adventure<br>starts here.</div>
+      <div class="left-sub">Join thousands of travellers discovering unique stays, unforgettable experiences, and places to call home — anywhere in the world.</div>
+      <div class="left-props">
+        <div class="prop"><span>🏡</span><span>10,000+ listings</span></div>
+        <div class="prop"><span>🌍</span><span>80+ countries</span></div>
+        <div class="prop"><span>⭐</span><span>4.9 avg rating</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="right">
+  <div class="auth-box">
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('login')">Log in</button>
+      <button class="tab" onclick="switchTab('signup')">Sign up</button>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="success-state" id="successState">
+      <div class="success-icon">🎉</div>
+      <div class="success-title" id="successTitle">Welcome to Hola!</div>
+      <div class="success-sub" id="successSub">Your account has been created. Start exploring thousands of unique stays around the world.</div>
+      <button class="success-btn" onclick="window.location.href='listings.html'">Start exploring →</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div class="form-panel active" id="loginPanel">
+      <div class="auth-title">Welcome back</div>
+      <div class="auth-sub">Log in to access your bookings and saved stays.</div>
+
+      <div class="social-btns">
+        <button class="social-btn" onclick="socialLogin('Google')">
+          <svg class="social-icon" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Continue with Google
+        </button>
+        <button class="social-btn" onclick="socialLogin('Facebook')">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Continue with Facebook
+        </button>
+      </div>
+
+      <div class="or-divider"><div class="or-line"></div><div class="or-text">or continue with email</div><div class="or-line"></div></div>
+
+      <div class="form-group">
+        <label class="field-label">Email address</label>
+        <input type="email" class="field" id="loginEmail" placeholder="you@example.com" oninput="clearError(this)"/>
+        <div class="field-error" id="loginEmailErr">Please enter a valid email address</div>
+      </div>
+      <div class="form-group">
+        <label class="field-label">Password</label>
+        <div class="pw-wrap">
+          <input type="password" class="field" id="loginPw" placeholder="Your password" oninput="clearError(this)"/>
+          <button class="pw-toggle" onclick="togglePw('loginPw',this)" type="button">👁</button>
+        </div>
+        <div class="field-error" id="loginPwErr">Password is required</div>
+      </div>
+      <div class="forgot"><a href="#">Forgot password?</a></div>
+      <button class="submit-btn" onclick="handleLogin()">Log in to Hola</button>
+      <div class="switch-text">Don't have an account? <a onclick="switchTab('signup')">Sign up free</a></div>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div class="form-panel" id="signupPanel">
+      <div class="auth-title">Create your account</div>
+      <div class="auth-sub">Join Hola free — no credit card required.</div>
+
+      <div class="social-btns">
+        <button class="social-btn" onclick="socialLogin('Google')">
+          <svg class="social-icon" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Continue with Google
+        </button>
+      </div>
+
+      <div class="or-divider"><div class="or-line"></div><div class="or-text">or sign up with email</div><div class="or-line"></div></div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="field-label">First name</label>
+          <input type="text" class="field" id="firstName" placeholder="Jane" oninput="clearError(this)"/>
+          <div class="field-error" id="firstNameErr">Required</div>
+        </div>
+        <div class="form-group">
+          <label class="field-label">Last name</label>
+          <input type="text" class="field" id="lastName" placeholder="Smith" oninput="clearError(this)"/>
+          <div class="field-error" id="lastNameErr">Required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="field-label">Email address</label>
+        <input type="email" class="field" id="signupEmail" placeholder="you@example.com" oninput="clearError(this)"/>
+        <div class="field-error" id="signupEmailErr">Please enter a valid email address</div>
+      </div>
+      <div class="form-group">
+        <label class="field-label">Password</label>
+        <div class="pw-wrap">
+          <input type="password" class="field" id="signupPw" placeholder="Create a password" oninput="checkStrength(this.value);clearError(this)"/>
+          <button class="pw-toggle" onclick="togglePw('signupPw',this)" type="button">👁</button>
+        </div>
+        <div class="field-error" id="signupPwErr">Password must be at least 8 characters</div>
+        <div class="pw-strength" id="pwStrength">
+          <div class="pw-bars">
+            <div class="pw-bar" id="b1"></div>
+            <div class="pw-bar" id="b2"></div>
+            <div class="pw-bar" id="b3"></div>
+            <div class="pw-bar" id="b4"></div>
+          </div>
+          <div class="pw-label" id="pwLabel">Too short</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="field-label">Confirm password</label>
+        <div class="pw-wrap">
+          <input type="password" class="field" id="confirmPw" placeholder="Repeat your password" oninput="clearError(this)"/>
+          <button class="pw-toggle" onclick="togglePw('confirmPw',this)" type="button">👁</button>
+        </div>
+        <div class="field-error" id="confirmPwErr">Passwords don't match</div>
+      </div>
+      <div class="terms">
+        <input type="checkbox" id="termsCheck"/>
+        <span>I agree to Hola's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. I'm happy to receive occasional emails about deals and updates.</span>
+      </div>
+      <button class="submit-btn" onclick="handleSignup()">Create my account</button>
+      <div class="switch-text">Already have an account? <a onclick="switchTab('login')">Log in</a></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active', (tab==='login'&&i===0)||(tab==='signup'&&i===1)));
+  document.getElementById('loginPanel').classList.toggle('active', tab==='login');
+  document.getElementById('signupPanel').classList.toggle('active', tab==='signup');
+}
+
+function togglePw(id, btn){
+  const f = document.getElementById(id);
+  if(f.type==='password'){ f.type='text'; btn.textContent='🙈'; }
+  else { f.type='password'; btn.textContent='👁'; }
+}
+
+function checkStrength(pw){
+  const s = document.getElementById('pwStrength');
+  const bars = ['b1','b2','b3','b4'].map(id=>document.getElementById(id));
+  const lbl = document.getElementById('pwLabel');
+  s.style.display = pw.length > 0 ? 'block' : 'none';
+  bars.forEach(b=>{ b.className='pw-bar'; });
+  let score = 0;
+  if(pw.length >= 8) score++;
+  if(/[A-Z]/.test(pw)) score++;
+  if(/[0-9]/.test(pw)) score++;
+  if(/[^A-Za-z0-9]/.test(pw)) score++;
+  const cls = score<=1?'weak':score<=2?'medium':'strong';
+  const labels = ['','Too weak','Could be stronger','Good password','Strong password'];
+  for(let i=0;i<score;i++) bars[i].classList.add(cls);
+  lbl.textContent = labels[score] || 'Too short';
+  lbl.style.color = score<=1?'#ef4444':score<=2?'#f97316':'#22c55e';
+}
+
+function showError(fieldId, errId){
+  document.getElementById(fieldId).classList.add('error');
+  document.getElementById(errId).style.display = 'block';
+}
+
+function clearError(field){
+  field.classList.remove('error');
+  const err = document.getElementById(field.id + 'Err');
+  if(err) err.style.display = 'none';
+}
+
+function isValidEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+function handleLogin(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pw = document.getElementById('loginPw').value;
+  let valid = true;
+  if(!isValidEmail(email)){ showError('loginEmail','loginEmailErr'); valid=false; }
+  if(!pw){ showError('loginPw','loginPwErr'); valid=false; }
+  if(!valid) return;
+  document.getElementById('loginPanel').style.display='none';
+  const s = document.getElementById('successState');
+  document.getElementById('successTitle').textContent = 'Welcome back! 👋';
+  document.getElementById('successSub').textContent = 'You\'re now logged in. Ready to find your next stay?';
+  s.style.display='block';
+}
+
+function handleSignup(){
+  const fn = document.getElementById('firstName').value.trim();
+  const ln = document.getElementById('lastName').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const pw = document.getElementById('signupPw').value;
+  const cpw = document.getElementById('confirmPw').value;
+  const terms = document.getElementById('termsCheck').checked;
+  let valid = true;
+  if(!fn){ showError('firstName','firstNameErr'); valid=false; }
+  if(!ln){ showError('lastName','lastNameErr'); valid=false; }
+  if(!isValidEmail(email)){ showError('signupEmail','signupEmailErr'); valid=false; }
+  if(pw.length < 8){ showError('signupPw','signupPwErr'); valid=false; }
+  if(pw !== cpw){ showError('confirmPw','confirmPwErr'); valid=false; }
+  if(!terms){ alert('Please agree to the Terms of Service to continue.'); valid=false; }
+  if(!valid) return;
+  document.getElementById('signupPanel').style.display='none';
+  const s = document.getElementById('successState');
+  document.getElementById('successTitle').textContent = `Welcome to Hola, ${fn}! 🎉`;
+  document.getElementById('successSub').textContent = 'Your account has been created. Start exploring thousands of unique stays around the world.';
+  s.style.display='block';
+}
+
+function socialLogin(provider){
+  alert(`${provider} login coming soon! This would connect to a real auth provider in production.`);
+}
+</script>
+</body>
+</html>
